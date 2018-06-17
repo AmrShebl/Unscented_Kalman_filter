@@ -7,6 +7,8 @@
 #include <string>
 #include <fstream>
 
+#define EPSILON 0.001
+
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
 
@@ -30,6 +32,8 @@ public:
 
   ///* predicted sigma points matrix
   MatrixXd Xsig_pred_;
+
+  MatrixXd delta_Xsig_pred_;
 
   ///* time when the state is true, in us
   long long time_us_;
@@ -56,7 +60,7 @@ public:
   double std_radrd_ ;
 
   ///* Weights of sigma points
-  VectorXd weights_;
+  MatrixXd W_;
 
   ///* State dimension
   int n_x_;

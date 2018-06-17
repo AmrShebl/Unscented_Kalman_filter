@@ -65,7 +65,7 @@ int main()
     	  // reads first element from the current line
     	  string sensor_type;
     	  iss >> sensor_type;
-
+        cout<<"I got new measurement"<<endl;
     	  if (sensor_type.compare("L") == 0) {
       	  		meas_package.sensor_type_ = MeasurementPackage::LASER;
           		meas_package.raw_measurements_ = VectorXd(2);
@@ -106,7 +106,11 @@ int main()
     	  ground_truth.push_back(gt_values);
           
           //Call ProcessMeasurment(meas_package) for Kalman filter
-    	  ukf.ProcessMeasurement(meas_package);    	  
+    	  ukf.ProcessMeasurement(meas_package);    
+        cout<<"X:"<<endl;	  
+        cout<<ukf.x_<<endl;
+        cout<<"P:"<<endl;
+        cout<<ukf.P_<<endl;
 
     	  //Push the current estimated x,y positon from the Kalman filter's state vector
 
@@ -126,7 +130,6 @@ int main()
     	  estimate(3) = v2;
     	  
     	  estimations.push_back(estimate);
-
     	  VectorXd RMSE = tools.CalculateRMSE(estimations, ground_truth);
 
           json msgJson;
@@ -139,10 +142,10 @@ int main()
           auto msg = "42[\"estimate_marker\"," + msgJson.dump() + "]";
           // std::cout << msg << std::endl;
           ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
-	  
+          cout<<"The message I sent is:"<<endl;
+          cout<<msgJson<<endl;
         }
       } else {
-        
         std::string msg = "42[\"manual\",{}]";
         ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
       }
